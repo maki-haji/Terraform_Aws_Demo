@@ -48,7 +48,7 @@ resource "aws_security_group" "MyLab_Sec_Group" {
   vpc_id = aws_vpc.MyLab-Vpc.id
 
   dynamic ingress {
-    iterator = "port"
+    iterator = port
     for_each = var.ports
     content {
       from_port = port.value
