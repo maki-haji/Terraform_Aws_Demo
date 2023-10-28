@@ -47,11 +47,15 @@ resource "aws_security_group" "MyLab_Sec_Group" {
   description = "To Allow inbound and outbound traffic to mylab"
   vpc_id = aws_vpc.MyLab-Vpc.id
 
-  ingress {
-    from_port = 22
-    to_port = 22
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+  dynamic ingress {
+    iterator = "port"
+    for_each = var.ports
+    content {
+      from_port = port.value
+      to_port = port.value
+      protocol = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
 
   }
   egress {
